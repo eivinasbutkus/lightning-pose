@@ -102,7 +102,6 @@ class BaseTrackingDataset(torch.utils.data.Dataset):
                 csv_file = options[0]
 
         csv_data = pd.read_csv(csv_file, header=header_rows)
-        self.keypoint_names = csv_data.columns.levels[0][1:]
         self.image_names = list(csv_data.iloc[:, 0])
         self.keypoints = torch.tensor(
             csv_data.iloc[:, 1:].to_numpy(), dtype=torch.float32
