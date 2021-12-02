@@ -1,0 +1,48 @@
+# dimensions of training images
+image_orig_dims:
+  height: 512
+  width: 512
+
+# resize dimensions to streamline model creation
+image_resize_dims:
+  height: 128
+  width: 128
+
+dlc_projects_path: "/home/eivinas/dev/dlc-frame-selection/dlc_projects/"
+datasets_path: "/home/eivinas/dev/dlc-frame-selection/datasets/"
+
+dataset: "mouse_oft"
+extraction_method: "uniform"
+run: 1
+
+# ABSOLUTE path to data directory. the below is just a toy example for running Getting Started scripts
+#data_dir: "/home/eivinas/dev/dlc-frame-selection/dlc_projects/uniform_mouse_oft_1--2021-11-19/"
+
+# ABSOLUTE path to unlabeled videos' directory. the below is just a toy example for running Getting Started scripts (TODO: Matt, can have multiple vids)
+#video_dir: "/home/eivinas/dev/dlc-frame-selection/dlc_projects/uniform_mouse_oft_1--2021-11-19/videos"
+
+# location of labels; for example script, this should be relative to `data_dir`
+csv_file: "labeled-data/train/CollectedData_.csv"
+
+# header rows to strip in label csv file
+header_rows: [0, 1, 2]
+
+# downsample heatmaps: 2 | 3
+downsample_factor: 2
+
+# total number of predictions; 2 * num_keypoints
+num_targets: 4
+
+# for mirrored setups with all keypoints defined in same csv file, define matching
+# columns for different keypoints (assumes x-y-x-y interleaving)
+# each list corresponds to a single view, so in the example below there are 2 views
+# keypoint 0 is from view 0 and matches up with keypoint 8 from view 2
+# columns that correspond to keypoints only labeled in a single view are omitted
+# TODO: what if a keypoint is labeled in more than 1 but not all views?
+# this info is only used for the multiview pca loss
+#mirrored_column_matches:
+#  - [0, 1, 2, 3, 4, 5, 6]
+#  - [8, 9, 10, 11, 12, 13, 14]
+
+
+# TODO: add parameters related to the ground truth heatmaps, sigma, confidence_scale, etc

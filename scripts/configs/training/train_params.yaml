@@ -24,7 +24,7 @@ num_gpus: 0
 num_workers: 8 # was 4
 
 # epochs over which to assess validation metrics for early stopping
-early_stop_patience: 30
+early_stop_patience: 10
 
 # epoch at which backbone network weights begin updating
 unfreezing_epoch: 25
