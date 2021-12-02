@@ -1,0 +1,24 @@
+# path to the hydra config file in the output folder, we can use it reconstruct information about loss directory
+hydra_paths: ["2021-11-16/13-48-58/"]
+
+  #model_display_names: ["toy_model_3", "quick_model"] # if you want to manually provide a different model name to be displayed in FiftyOne
+
+  #fifty_one_dataset_name: "rick_data_test"
+
+# list with absolute paths to new unlabeled videos folders for prediction (it's not absolute just for the example)
+path_to_test_videos: ["/home/eivinas/dev/dlc-frame-selection/datasets/mouse_oft/test_video"]
+
+# list with absolute paths to the .csv with predictions for each vid in path_to_test_videos
+#path_to_csv_predictions:
+  #[
+    #"toy_datasets/toymouseRunningData/unlabeled_videos/test_vid_heatmap.csv",
+    #"toy_datasets/toymouseRunningData/unlabeled_videos/test_vid_heatmap_temporal.csv",
+  #]
+
+# path to save the .csv file with preds:
+path_to_save_predictions: "/home/eivinas/dev/dlc-frame-selection/datasets/mouse_oft/test_video/umap_mouse_oft_1.csv"
+
+# params for loading images from the video using nvidia-dali
+dali_parameters:
+  # how many frames to grab at once from the video
+  sequence_length: 64

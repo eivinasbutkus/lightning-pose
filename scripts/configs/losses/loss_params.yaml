@@ -31,10 +31,10 @@ pca_singleview:
 # loss = norm of distance between successive timepoints
 temporal:
   # weight in front of temporal loss
-  weight: 0.7
+  weight: 0.6
 
   # for epsilon insensitive rectification (in pixels; diffs below this are not penalized)
-  epsilon: 5.
+  epsilon: 5.0
 
 # loss = MSE between generated heatmap and ideal gaussian heatmap with same center as generated heatmap
 unimodal:

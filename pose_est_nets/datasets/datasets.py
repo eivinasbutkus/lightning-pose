@@ -106,6 +106,7 @@ class BaseTrackingDataset(torch.utils.data.Dataset):
         self.keypoints = torch.tensor(
             csv_data.iloc[:, 1:].to_numpy(), dtype=torch.float32
         )
+
         # convert to x,y coordinates
         self.keypoints = self.keypoints.reshape(self.keypoints.shape[0], -1, 2)
         if pytorch_transform_list is None:

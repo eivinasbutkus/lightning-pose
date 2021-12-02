@@ -19,17 +19,30 @@ from pytorch_lightning.loggers import TensorBoardLogger
 from pytorch_lightning.callbacks import BackboneFinetuning
 
 import os
+from pathlib import Path
 
 _TORCH_DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 
 @hydra.main(config_path="configs", config_name="config")
 def train(cfg: DictConfig):
+    
+    # we only want to run model once per extraction_method, dataset, run, model and seed
+    if Path(Path.cwd(), "tb_logs").exists():
+        raise Exception(f'{Path.cwd()} already run')
+
     print("Our Hydra config file:")
     print(cfg)
     semi_supervised = check_if_semi_supervised(cfg.model.losses_to_use)
-
-    data_dir, video_dir = verify_real_data_paths(cfg.data)
+    
+    extraction_method = cfg.data.extraction_method
+    dataset = cfg.data.dataset
+    run = cfg.data.run
+    
+    data_dir = cfg.data.dlc_projects_path + f'{extraction_method}_{dataset}_{run}'
+    video_dir = data_dir + 'videos'
+    
+    #data_dir, video_dir = verify_real_data_paths(cfg.data)
 
     data_transform = []
     data_transform.append(
@@ -44,7 +57,7 @@ def train(cfg: DictConfig):
     if cfg.model.model_type == "regression":
         dataset = BaseTrackingDataset(
             root_directory=data_dir,
-            csv_path=cfg.data.csv_path,
+            csv_path=cfg.data.csv_file,
             header_rows=OmegaConf.to_object(cfg.data.header_rows),
             imgaug_transform=imgaug_transform,
         )
@@ -118,6 +131,8 @@ def train(cfg: DictConfig):
             loss_param_dict["unimodal"]["output_shape"] = dataset.output_shape
             loss_param_dict["unimodal"]["original_image_height"] = dataset.height
             loss_param_dict["unimodal"]["original_image_width"] = dataset.width
+        
+
         datamod = UnlabeledDataModule(
             dataset=dataset,
             video_paths_list=video_dir,
@@ -160,7 +175,7 @@ def train(cfg: DictConfig):
                 "%s is an invalid cfg.model.model_type for a semi-supervised model"
                 % cfg.model.model_type
             )
-
+    
     logger = TensorBoardLogger("tb_logs", name=cfg.model.model_name)
     early_stopping = pl.callbacks.EarlyStopping(
         monitor="val_loss", patience=cfg.training.early_stop_patience, mode="min"

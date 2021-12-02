@@ -358,6 +358,7 @@ def predict_videos(
         t_beg = time.time()
         n = -1
         # TODO: seperate it out from the function
+
         with torch.no_grad():
             for n, batch in enumerate(tqdm(predict_loader)):
                 outputs = model.forward(batch)
@@ -370,6 +371,7 @@ def predict_videos(
                     pred_keypoints = outputs.detach().cpu().numpy()
                     confidence = np.zeros((outputs.shape[0], outputs.shape[1] // 2))
                 n_frames_curr = pred_keypoints.shape[0]
+
                 if n_frames + n_frames_curr > n_frames_:
                     # final sequence
                     final_batch_size = n_frames_ - n_frames
@@ -379,6 +381,7 @@ def predict_videos(
                 else:  # at every sequence except the final
                     keypoints_np[n_frames : n_frames + n_frames_curr] = pred_keypoints
                     confidence_np[n_frames : n_frames + n_frames_curr] = confidence
+
 
                 n_frames += n_frames_curr
             t_end = time.time()
@@ -408,10 +411,10 @@ def predict_videos(
         predictions[:, 2::3] = confidence_np
 
         # get bodypart names from labeled data csv if possible
-        if ("data_dir" in cfg.data) and ("csv_file" in cfg.data):
-            csv_file = os.path.join(cfg.data.data_dir, cfg.data.csv_file)
-        else:
-            csv_file = ""
+        #if ("data_dir" in cfg.data) and ("csv_file" in cfg.data):
+        csv_file = os.path.join(cfg.data.dlc_projects_path,
+                f'{cfg.data.extraction_method}_{cfg.data.dataset}_{cfg.data.run}', cfg.data.csv_file)
+
         if os.path.exists(csv_file):
             if "header_rows" in cfg.data:
                 header_rows = list(cfg.data.header_rows)
@@ -420,7 +423,7 @@ def predict_videos(
                 header_rows = [0, 1, 2]
             df = pd.read_csv(csv_file, header=header_rows)
             # collect marker names from multiindex header
-            joint_labels = [c[0] for c in df.columns[1::2]]
+            joint_labels = [c[1] for c in df.columns[1::2]]
         else:
             joint_labels = ["bp_%i" % n for n in range(model.num_keypoints)]
 
@@ -434,7 +437,8 @@ def predict_videos(
         if save_file.endswith(".csv"):
             df.to_csv(save_file)
         elif save_file.find(".h") > -1:
-            df.to_hdf(save_file)
+            print(save_file)
+            df.to_hdf(save_file, 'predictions')
         else:
             raise NotImplementedError("Currently only .csv and .h5 files are supported")
 

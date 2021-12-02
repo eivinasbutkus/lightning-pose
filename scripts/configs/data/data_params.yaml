@@ -5,8 +5,8 @@ image_orig_dims:
 
 # resize dimensions to streamline model creation
 image_resize_dims:
-  height: 256
-  width: 256
+  height: 128
+  width: 128
 
 # ABSOLUTE path to data directory. the below is just a toy example for running Getting Started scripts
 data_dir: "toy_datasets/toymouseRunningData"
