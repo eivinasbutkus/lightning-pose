@@ -14,10 +14,9 @@ from pose_est_nets.utils.io import (
     verify_absolute_path,
 )
 
-
 import argparse
 from pathlib import Path
-
+from itertools import product
 
 
 #@hydra.main(config_path="configs", config_name="config")
@@ -63,16 +62,28 @@ def make_predictions(extraction_method, dataset, run, model, seed):
     )
 
 
-
-
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
+    # parser = argparse.ArgumentParser()
 
-    parser.add_argument('-e', '--extraction-method', type=str)
-    parser.add_argument('-d', '--dataset', type=str)
-    parser.add_argument('-r', '--run', type=int)
-    parser.add_argument('-m', '--model', type=int)
-    parser.add_argument('-s', '--seed', type=int)
+    # parser.add_argument('-e', '--extraction-method', type=str)
+    # parser.add_argument('-d', '--dataset', type=str)
+    # parser.add_argument('-r', '--run', type=int)
+    # parser.add_argument('-m', '--model', type=int)
+    # parser.add_argument('-s', '--seed', type=int)
 
-    args = parser.parse_args()
-    make_predictions(args.extraction_method, args.dataset, args.run, args.model, args.seed)
+    # args = parser.parse_args()
+
+    extraction_methods = ['uniform', 'kmeans', 'umap']
+    dataset = 'mouse_wheel'
+    n_runs = 2
+    models = [50]
+    n_seeds = 5
+
+    runs = range(1, n_runs+1)
+    seeds = range(1, n_seeds+1)
+    
+    rmses = {}
+    combs = product(extraction_methods, runs, models, seeds)
+    for comb in combs:
+        (e, r, m, s) = comb
+        make_predictions(e, dataset, r, m, s)

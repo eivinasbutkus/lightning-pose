@@ -409,24 +409,31 @@ def predict_videos(
         y_og = cfg.data.image_orig_dims.height
         predictions[:, 1::3] = keypoints_np[:, 1::2] / y_resize * y_og
         predictions[:, 2::3] = confidence_np
-
+    
+        # joint_labels = cfg.data.joint_labels
         # get bodypart names from labeled data csv if possible
         #if ("data_dir" in cfg.data) and ("csv_file" in cfg.data):
-        csv_file = os.path.join(cfg.data.dlc_projects_path,
-                f'{cfg.data.extraction_method}_{cfg.data.dataset}_{cfg.data.run}', cfg.data.csv_file)
-
-        if os.path.exists(csv_file):
-            if "header_rows" in cfg.data:
-                header_rows = list(cfg.data.header_rows)
-            else:
-                # assume dlc format
-                header_rows = [0, 1, 2]
-            df = pd.read_csv(csv_file, header=header_rows)
-            # collect marker names from multiindex header
-            joint_labels = [c[1] for c in df.columns[1::2]]
-        else:
-            joint_labels = ["bp_%i" % n for n in range(model.num_keypoints)]
-
+        #csv_file = os.path.join(cfg.data.dlc_projects_path,
+        #        f'{cfg.data.extraction_method}_{cfg.data.dataset}_{cfg.data.run}', cfg.data.csv_file)
+                
+        # if os.path.exists(csv_file):
+            # if "header_rows" in cfg.data:
+                # header_rows = list(cfg.data.header_rows)
+            # else:
+                # # assume dlc format
+                # header_rows = [0, 1, 2]
+            # df = pd.read_csv(csv_file, header=header_rows)
+            # # collect marker names from multiindex header
+            # joint_labels = [c[1] for c in df.columns[1::2]]
+        # else:
+            # joint_labels = ["bp_%i" % n for n in range(model.num_keypoints)]
+        
+        # ugly but what can you do sometimes
+        import sys
+        sys.path.append('/home/eivinas/dev/dlc-frame-selection/scripts/')
+        from config import BODYPARTS
+        joint_labels = BODYPARTS[cfg.data.dataset]
+        
         # build data frame
         xyl_labels = ["x", "y", "likelihood"]
         pdindex = pd.MultiIndex.from_product(
