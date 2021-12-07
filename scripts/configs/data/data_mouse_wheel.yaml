@@ -5,20 +5,13 @@ image_orig_dims:
 
 # resize dimensions to streamline model creation
 image_resize_dims:
-  height: 128
-  width: 128
+  height: 256
+  width: 256
 
 dlc_projects_path: "/home/eivinas/dev/dlc-frame-selection/dlc_projects/"
-#datasets_path: "/home/eivinas/dev/dlc-frame-selection/datasets/"
 dataset: "mouse_wheel"
 extraction_method: "uniform"
 run: 1
-
-# ABSOLUTE path to data directory. the below is just a toy example for running Getting Started scripts
-#data_dir: "/home/eivinas/dev/dlc-frame-selection/dlc_projects/uniform_mouse_oft_1--2021-11-19/"
-
-# ABSOLUTE path to unlabeled videos' directory. the below is just a toy example for running Getting Started scripts (TODO: Matt, can have multiple vids)
-#video_dir: "/home/eivinas/dev/dlc-frame-selection/dlc_projects/uniform_mouse_oft_1--2021-11-19/videos"
 
 # location of labels; for example script, this should be relative to `data_dir`
 csv_file: "labeled-data/train/CollectedData_.csv"

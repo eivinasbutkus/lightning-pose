@@ -27,16 +27,7 @@ def make_predictions(extraction_method, dataset, run, model, seed):
     # TODO: supporting only the zeroth index of cfg.eval.path_to_test_videos[0]
     # go to folders up to the "outputs" folder, and search for hydra_path from cfg
 
-    #absolute_cfg_path = get_absolute_hydra_path_from_hydra_str(hydra_relative_path)
-
     absolute_cfg_path = f'outputs/{extraction_method}_{dataset}_{run}_{model}_{seed}/'
-    # extraction_method = cfg.data.extraction_method
-    # dataset = cfg.data.dataset
-    # run = cfg.data.run
-    # model = cfg.model.resnet_version
-    # seed = cfg.training.rng_seed_model_pt
-
-    #absolute_cfg_path = _get_absolute_cfg_path(hydra_relative_path)
     
     model_cfg = OmegaConf.load(
         os.path.join(absolute_cfg_path, ".hydra/config.yaml")
@@ -47,40 +38,32 @@ def make_predictions(extraction_method, dataset, run, model, seed):
     )
     
     datasets_path = '/home/eivinas/dev/dlc-frame-selection/datasets/'
-    test_video_path = f'{datasets_path}/{dataset}/test_video'
-    Path(test_video_path, 'predictions').mkdir(parents=True, exist_ok=True)
-    predictions_path = f'{datasets_path}/{dataset}/test_video/predictions/{extraction_method}_{dataset}_{run}_{model}_{seed}.csv'
-
-    #absolute_path_to_test_videos = verify_absolute_path(test_video_path)
+    test_video_dir = f'{datasets_path}/{dataset}/test_video'
+    
+    predictions_csv_dir = '/home/eivinas/dev/dlc-frame-selection/predictions/csv'
+    save_dir = f'{predictions_csv_dir}/{extraction_method}_{dataset}_{run}_{model}_{seed}'
+    Path(save_dir).mkdir(parents=True, exist_ok=True)
 
     predict_videos(
-        video_path=test_video_path,
+        video_dir=test_video_dir,
         ckpt_file=ckpt_file,
         cfg_file=model_cfg,
-        save_file=predictions_path,
+        save_dir=save_dir,
         sequence_length=64,
     )
 
 
 if __name__ == "__main__":
-    # parser = argparse.ArgumentParser()
-
-    # parser.add_argument('-e', '--extraction-method', type=str)
-    # parser.add_argument('-d', '--dataset', type=str)
-    # parser.add_argument('-r', '--run', type=int)
-    # parser.add_argument('-m', '--model', type=int)
-    # parser.add_argument('-s', '--seed', type=int)
-
-    # args = parser.parse_args()
-
-    extraction_methods = ['uniform', 'kmeans', 'umap']
+    #extraction_methods = ['uniform', 'kmeans', 'umap']
+    extraction_methods = ['umap']
     dataset = 'mouse_wheel'
-    n_runs = 2
+    n_runs = 1
     models = [50]
-    n_seeds = 5
+    n_seeds = 1
 
     runs = range(1, n_runs+1)
     seeds = range(1, n_seeds+1)
+    seeds = [3]
     
     rmses = {}
     combs = product(extraction_methods, runs, models, seeds)
