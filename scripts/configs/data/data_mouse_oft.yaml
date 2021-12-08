@@ -9,17 +9,10 @@ image_resize_dims:
   width: 128
 
 dlc_projects_path: "/home/eivinas/dev/dlc-frame-selection/dlc_projects/"
-datasets_path: "/home/eivinas/dev/dlc-frame-selection/datasets/"
 
 dataset: "mouse_oft"
 extraction_method: "uniform"
 run: 1
-
-# ABSOLUTE path to data directory. the below is just a toy example for running Getting Started scripts
-#data_dir: "/home/eivinas/dev/dlc-frame-selection/dlc_projects/uniform_mouse_oft_1--2021-11-19/"
-
-# ABSOLUTE path to unlabeled videos' directory. the below is just a toy example for running Getting Started scripts (TODO: Matt, can have multiple vids)
-#video_dir: "/home/eivinas/dev/dlc-frame-selection/dlc_projects/uniform_mouse_oft_1--2021-11-19/videos"
 
 # location of labels; for example script, this should be relative to `data_dir`
 csv_file: "labeled-data/train/CollectedData_.csv"
@@ -31,7 +24,7 @@ header_rows: [0, 1, 2]
 downsample_factor: 2
 
 # total number of predictions; 2 * num_keypoints
-num_targets: 4
+num_targets: 2
 
 # for mirrored setups with all keypoints defined in same csv file, define matching
 # columns for different keypoints (assumes x-y-x-y interleaving)

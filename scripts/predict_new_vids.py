@@ -39,8 +39,9 @@ def make_predictions(extraction_method, dataset, run, model, seed):
     
     datasets_path = '/home/eivinas/dev/dlc-frame-selection/datasets/'
     test_video_dir = f'{datasets_path}/{dataset}/test_video'
+    #test_video_dir = f'{datasets_path}/{dataset}'
     
-    predictions_csv_dir = '/home/eivinas/dev/dlc-frame-selection/predictions/csv'
+    predictions_csv_dir = f'/home/eivinas/dev/dlc-frame-selection/predictions/csv_{dataset}'
     save_dir = f'{predictions_csv_dir}/{extraction_method}_{dataset}_{run}_{model}_{seed}'
     Path(save_dir).mkdir(parents=True, exist_ok=True)
 
@@ -55,15 +56,17 @@ def make_predictions(extraction_method, dataset, run, model, seed):
 
 if __name__ == "__main__":
     #extraction_methods = ['uniform', 'kmeans', 'umap']
-    extraction_methods = ['umap']
-    dataset = 'mouse_wheel'
+    extraction_methods = ['kmeans']
+    dataset = 'mouse_oft'
     n_runs = 1
     models = [50]
     n_seeds = 1
 
     runs = range(1, n_runs+1)
     seeds = range(1, n_seeds+1)
-    seeds = [3]
+
+    runs = [2]
+    seeds = [2]
     
     rmses = {}
     combs = product(extraction_methods, runs, models, seeds)

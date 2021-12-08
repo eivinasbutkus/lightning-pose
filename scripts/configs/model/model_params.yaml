@@ -5,7 +5,7 @@ losses_to_use: null # ["temporal"]
 resnet_version: 50
 
 # prediction mode: "heatmap" | "regression"
-model_type: "heatmap"
+model_type: "regression"
 
 # directory name for model saving
 model_name: "resnet50"

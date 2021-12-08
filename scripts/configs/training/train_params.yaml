@@ -1,5 +1,5 @@
 # batch size of labeled data during training
-train_batch_size: 8
+train_batch_size: 4
 
 # batch size of labeled data during validation
 val_batch_size: 16 # was 16
@@ -33,10 +33,10 @@ unfreezing_epoch: 25
 dropout_rate: 0.1
 
 # min training epochs; training cannot terminate before. compare to unfreezing_epoch, check_val_every_n_epoch, early_stop_patience
-min_epochs: 100
+min_epochs: 300
 
 # max training epochs; training may exit before due to early stopping
-max_epochs: 1000
+max_epochs: 300
 
 # frequency to log training metrics (one step is one batch)
 log_every_n_steps: 1
