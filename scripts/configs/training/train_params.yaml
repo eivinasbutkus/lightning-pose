@@ -1,5 +1,5 @@
 # batch size of labeled data during training
-train_batch_size: 4
+train_batch_size: 8
 
 # batch size of labeled data during validation
 val_batch_size: 16 # was 16
@@ -27,7 +27,7 @@ num_workers: 8 # was 4
 early_stop_patience: 5
 
 # epoch at which backbone network weights begin updating
-unfreezing_epoch: 25
+unfreezing_epoch: 100
 
 # dropout in final layers
 dropout_rate: 0.1
@@ -39,10 +39,10 @@ min_epochs: 300
 max_epochs: 300
 
 # frequency to log training metrics (one step is one batch)
-log_every_n_steps: 1
+log_every_n_steps: 100
 
 # frequency to log validation metrics
-check_val_every_n_epoch: 10
+check_val_every_n_epoch: 300
 
 # select gpu for training
 gpu_id: 0
@@ -60,7 +60,7 @@ rng_seed_data_dali: 43
 rng_seed_model_pt: 44
 
 # how many batches to take before terminating an epoch (any dataloader that has less than limit_train_batches will be cycled over)
-limit_train_batches: 10
+limit_train_batches: 20
 
 # if you have two dataloaders, you keep cycling over the smaller dataset berfore completing the larger one
 multiple_trainloader_mode: "max_size_cycle"
@@ -68,4 +68,4 @@ multiple_trainloader_mode: "max_size_cycle"
 profiler: "simple"
 
 # runs K small batches of size N before doing a backwards pass.
-accumulate_grad_batches: 2
+accumulate_grad_batches: 1

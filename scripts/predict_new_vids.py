@@ -56,17 +56,17 @@ def make_predictions(extraction_method, dataset, run, model, seed):
 
 if __name__ == "__main__":
     #extraction_methods = ['uniform', 'kmeans', 'umap']
-    extraction_methods = ['kmeans']
-    dataset = 'mouse_oft'
+    extraction_methods = ['uniform']
+    dataset = 'mouse_wheel'
     n_runs = 1
-    models = [50]
     n_seeds = 1
 
     runs = range(1, n_runs+1)
     seeds = range(1, n_seeds+1)
 
-    runs = [2]
-    seeds = [2]
+    models = [18] # 152
+    runs = [1]
+    seeds = [1]
     
     rmses = {}
     combs = product(extraction_methods, runs, models, seeds)

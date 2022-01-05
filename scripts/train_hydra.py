@@ -212,9 +212,9 @@ def train(cfg: DictConfig):
         check_val_every_n_epoch=cfg.training.check_val_every_n_epoch,
         log_every_n_steps=cfg.training.log_every_n_steps,
         callbacks=[
-            early_stopping,
-            lr_monitor,
-            ckpt_callback,
+            #early_stopping,
+            #lr_monitor,
+            #ckpt_callback,
             transfer_unfreeze_callback,
         ],
         logger=logger,
